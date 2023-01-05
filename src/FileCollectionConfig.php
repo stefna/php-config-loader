@@ -28,18 +28,18 @@ final class FileCollectionConfig implements Config
 	 */
 	protected function getRawConfigArray(): array
 	{
-		if (!isset($this->configData)) {
-			$configs = [];
-			foreach ($this->files as $configFile) {
-				if (!file_exists($this->configPath . $configFile)) {
-					throw new \RuntimeException('Configuration not found: ' . $this->configPath . $configFile);
-				}
-				$configs[] = require $this->configPath . $configFile;
-			}
-			$this->files = [];
-			$this->configData = array_merge(...$configs);
+		if (isset($this->configData)) {
+			return $this->configData;
 		}
 
-		return $this->configData;
+		$configs = [];
+		foreach ($this->files as $configFile) {
+			if (!file_exists($this->configPath . $configFile)) {
+				throw new \RuntimeException('Configuration not found: ' . $this->configPath . $configFile);
+			}
+			$configs[] = require $this->configPath . $configFile;
+		}
+		$this->files = [];
+		return $this->configData = array_merge(...$configs);
 	}
 }

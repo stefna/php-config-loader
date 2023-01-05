@@ -18,13 +18,13 @@ final class FileConfig implements Config
 	 */
 	protected function getRawConfigArray(): array
 	{
-		if (!isset($this->configData)) {
-			if (!file_exists($this->configFile)) {
-				throw new \RuntimeException('Configuration not found: ' . $this->configFile);
-			}
-			$this->configData = require $this->configFile;
+		if (isset($this->configData)) {
+			return $this->configData;
 		}
 
-		return $this->configData;
+		if (!file_exists($this->configFile)) {
+			throw new \RuntimeException('Configuration not found: ' . $this->configFile);
+		}
+		return $this->configData = require $this->configFile;
 	}
 }
