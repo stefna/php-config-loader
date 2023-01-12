@@ -4,17 +4,77 @@ namespace Stefna\Config\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Stefna\Config\ArrayConfig;
+use Stefna\Config\Tests\Stub\TestStub;
 
 final class ArrayConfigTest extends TestCase
 {
-	/**
-	 * @dataProvider stringValues
-	 */
-	public function testGetAsString(string $key, mixed $expected): void
+	public function testGetArrayObject(): void
 	{
 		$config = $this->getConfig();
 
-		$this->assertSame($expected, $config->getString($key));
+		$obj = $config->getArrayAsObject('testArray', TestStub::class);
+
+		$this->assertInstanceOf(TestStub::class, $obj);
+		$this->assertSame(1, $obj->random);
+	}
+
+	public function testGetArrayObjectWithInvalidClass(): void
+	{
+		$config = $this->getConfig();
+
+		$this->expectException(\BadMethodCallException::class);
+
+		$config->getArrayAsObject('testArray', \ArrayObject::class);
+	}
+
+	public function testGetArray(): void
+	{
+		$config = $this->getConfig();
+
+		$arr = $config->getArray('testArray');
+
+		$this->assertIsArray($arr);
+		$this->assertSame('1', $arr['random']);
+	}
+
+	public function testGetArrayWithDefaultValue(): void
+	{
+		$config = $this->getConfig();
+
+		$arr = $config->getArray('not-found', ['number' => 1]);
+
+		$this->assertIsArray($arr);
+		$this->assertSame(1, $arr['number']);
+	}
+
+	public function testGetArrayWithInvalidValueReturnsEmptyArray(): void
+	{
+		$config = $this->getConfig();
+
+		$arr = $config->getArray('testString');
+		$this->assertEmpty($arr);
+	}
+
+	public function testGetArrayNotFoundEmptyArray(): void
+	{
+		$config = $this->getConfig();
+
+		$arr = $config->getArray('not-found');
+		$this->assertEmpty($arr);
+	}
+
+	public function testGet(): void
+	{
+		$config = $this->getConfig();
+
+		$this->assertSame('string', $config->get('testString'));
+	}
+
+	public function testGetWithDefault(): void
+	{
+		$config = $this->getConfig();
+
+		$this->assertSame(1, $config->get('not-found', 1));
 	}
 
 	public function getConfig(): ArrayConfig
@@ -29,20 +89,5 @@ final class ArrayConfigTest extends TestCase
 				'random' => '1',
 			],
 		]);
-	}
-
-	/**
-	 * @return list<array{string, mixed}>
-	 */
-	public function stringValues(): array
-	{
-		return [
-			['testString', 'string'],
-			['testNumber', '42'],
-			['testBool', '1'],
-			['testBoolAsString', 'on'],
-			['testArray', null],
-			['not-found', null],
-		];
 	}
 }
