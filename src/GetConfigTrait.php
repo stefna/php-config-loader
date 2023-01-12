@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Moya\Config;
+namespace Stefna\Config;
 
 use Stefna\Collection\ScalarMapTrait;
 

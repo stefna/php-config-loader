@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Moya\Config;
+namespace Stefna\Config;
 
 final class FileConfig implements Config
 {

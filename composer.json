@@ -16,7 +16,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Moya\\DependencyInjection\\": "src/"
+			"Stefna\\Config\\": "src/"
 		}
 	}
 }
