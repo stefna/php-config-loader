@@ -2,6 +2,9 @@
 
 namespace Stefna\Config;
 
+use Stefna\Config\Exception\ConfigLocked;
+use Stefna\Config\Exception\FileNotFound;
+
 final class FileCollectionConfig implements Config
 {
 	use GetConfigTrait;
@@ -18,7 +21,7 @@ final class FileCollectionConfig implements Config
 	public function addFile(string $file): void
 	{
 		if (isset($this->configData)) {
-			throw new \BadMethodCallException("Can't add more files after config have been loaded");
+			throw new ConfigLocked("Can't add more files after config have been loaded");
 		}
 		$this->files[] = $file;
 	}
@@ -32,7 +35,7 @@ final class FileCollectionConfig implements Config
 		$configs = [];
 		foreach ($this->files as $configFile) {
 			if (!file_exists($this->configPath . $configFile)) {
-				throw new \RuntimeException('Configuration not found: ' . $this->configPath . $configFile);
+				throw new FileNotFound('Configuration not found: ' . $this->configPath . $configFile);
 			}
 			$configs[] = require $this->configPath . $configFile;
 		}

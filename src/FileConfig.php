@@ -2,6 +2,8 @@
 
 namespace Stefna\Config;
 
+use Stefna\Config\Exception\FileNotFound;
+
 final class FileConfig implements Config
 {
 	use GetConfigTrait;
@@ -20,7 +22,7 @@ final class FileConfig implements Config
 		}
 
 		if (!file_exists($this->configFile)) {
-			throw new \RuntimeException('Configuration not found: ' . $this->configFile);
+			throw new FileNotFound('Configuration not found: ' . $this->configFile);
 		}
 		$this->configData = require $this->configFile;
 
