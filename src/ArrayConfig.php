@@ -11,11 +11,8 @@ final class ArrayConfig implements Config
 		private readonly array $config,
 	) {}
 
-	/**
-	 * @return array<string, mixed>
-	 */
-	protected function getRawConfigArray(): array
+	protected function getRawValue(string $key): mixed
 	{
-		return $this->config;
+		return $this->config[$key] ?? null;
 	}
 }

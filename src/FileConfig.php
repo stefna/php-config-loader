@@ -13,18 +13,17 @@ final class FileConfig implements Config
 		private readonly string $configFile,
 	) {}
 
-	/**
-	 * @return array<string, mixed>
-	 */
-	protected function getRawConfigArray(): array
+	public function getRawValue(string $key): mixed
 	{
 		if (isset($this->configData)) {
-			return $this->configData;
+			return $this->configData[$key] ?? null;
 		}
 
 		if (!file_exists($this->configFile)) {
 			throw new \RuntimeException('Configuration not found: ' . $this->configFile);
 		}
-		return $this->configData = require $this->configFile;
+		$this->configData = require $this->configFile;
+
+		return $this->configData[$key] ?? null;
 	}
 }

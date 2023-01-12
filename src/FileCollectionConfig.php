@@ -23,13 +23,10 @@ final class FileCollectionConfig implements Config
 		$this->files[] = $file;
 	}
 
-	/**
-	 * @return array<string, mixed>
-	 */
-	protected function getRawConfigArray(): array
+	protected function getRawValue(string $key): mixed
 	{
 		if (isset($this->configData)) {
-			return $this->configData;
+			return $this->configData[$key] ?? null;
 		}
 
 		$configs = [];
@@ -40,6 +37,8 @@ final class FileCollectionConfig implements Config
 			$configs[] = require $this->configPath . $configFile;
 		}
 		$this->files = [];
-		return $this->configData = array_merge(...$configs);
+		$this->configData = array_merge(...$configs);
+
+		return $this->configData[$key] ?? null;
 	}
 }

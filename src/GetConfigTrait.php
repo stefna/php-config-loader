@@ -2,68 +2,15 @@
 
 namespace Moya\Config;
 
+use Stefna\Collection\ScalarMapTrait;
+
 trait GetConfigTrait
 {
-	/**
-	 * @return array<string, mixed>
-	 */
-	abstract protected function getRawConfigArray(): array;
+	use ScalarMapTrait;
 
 	public function get(string $key, mixed $default = null): mixed
 	{
-		$data = $this->getRawConfigArray();
-		return $data[$key] ?? null;
-	}
-
-	public function has(string $key): bool
-	{
-		return isset($this->getRawConfigArray()[$key]);
-	}
-
-	public function getString(string $key, ?string $default = null): ?string
-	{
-		$value = $this->getRawConfigArray()[$key] ?? $default;
-		if (!is_scalar($value)) {
-			return $default;
-		}
-		return (string)$value;
-	}
-
-	public function getInt(string $key, ?int $default = null): ?int
-	{
-		$value = $this->getRawConfigArray()[$key] ?? $default;
-		if (is_numeric($value)) {
-			return (int)$value;
-		}
-		return $default;
-	}
-
-	public function getFloat(string $key, ?float $default = null): ?float
-	{
-		$value = $this->getRawConfigArray()[$key] ?? $default;
-		if (is_numeric($value)) {
-			return (float)$value;
-		}
-		return $default;
-	}
-
-	public function getBool(string $key, ?bool $default = null): ?bool
-	{
-		$value = $this->getRawConfigArray()[$key] ?? $default;
-		if (is_bool($value) || $value === null) {
-			return $value;
-		}
-
-		if (!is_scalar($value)) {
-			return $default;
-		}
-
-		return in_array($value, [
-			1,
-			'1',
-			'on',
-			'true',
-		], true);
+		return $this->getRawValue($key) ?? $default;
 	}
 
 	/**
@@ -72,7 +19,7 @@ trait GetConfigTrait
 	 */
 	public function getArray(string $key, array $default = []): array
 	{
-		$value = $this->getRawConfigArray()[$key] ?? $default;
+		$value = $this->getRawValue($key) ?? $default;
 		if (!is_array($value)) {
 			return $default;
 		}
