@@ -1,5 +1,5 @@
 {
-	"name": "stefna/moya-di",
+	"name": "stefna/config",
 	"description": "Lightweight config loader with type safety",
 	"type": "library",
 	"license": "MIT",
