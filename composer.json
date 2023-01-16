@@ -1,5 +1,6 @@
 {
 	"name": "stefna/moya-di",
+	"description": "Lightweight config loader with type safety",
 	"type": "library",
 	"license": "MIT",
 	"authors": [
@@ -12,11 +13,32 @@
 	"prefer-stable": true,
 	"require": {
 		"php": "^8.2",
-		"psr/container": "^2.0"
+		"psr/container": "^2.0",
+		"stefna/ds-collection": "dev-main"
+	},
+	"require-dev": {
+		"squizlabs/php_codesniffer": "dev-master",
+		"stefna/codestyle": "^1.12",
+		"phpstan/phpstan": "^1.8",
+		"bnf/phpstan-psr-container": "^1.0",
+		"phpunit/phpunit": "^9.5.25",
+		"phpstan/phpstan-phpunit": "^1.1",
+		"tomasvotruba/type-coverage": "^0.0.7",
+		"phpstan/extension-installer": "^1.2"
 	},
 	"autoload": {
 		"psr-4": {
 			"Stefna\\Config\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Stefna\\Config\\Tests\\": "tests/"
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"phpstan/extension-installer": true
 		}
 	}
 }
