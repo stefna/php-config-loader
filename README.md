@@ -1,4 +1,8 @@
-# Config 
+# Config
+
+[![Build Status](https://github.com/stefna/php-config-loader/actions/workflows/continuous-integration.yml/badge.svg?branch=main)](https://github.com/stefna/php-config-loader/actions/workflows/continuous-integration.yml)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/stefna/config.svg)](https://packagist.org/packages/stefna/config)
+[![Software License](https://img.shields.io/github/license/stefna/php-config-loader.svg)](LICENSE)
 
 This package is a lightweight config loader with type safety as the primary
 corner stone.
