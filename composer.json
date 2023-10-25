@@ -14,7 +14,7 @@
 	"require": {
 		"php": "^8.2",
 		"psr/container": "^2.0",
-		"stefna/ds-collection": "dev-main"
+		"stefna/ds-collection": "^1.0"
 	},
 	"require-dev": {
 		"squizlabs/php_codesniffer": "dev-master",
