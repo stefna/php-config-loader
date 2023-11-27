@@ -13,6 +13,20 @@ final class ArrayConfig implements Config
 
 	protected function getRawValue(string $key): mixed
 	{
-		return $this->config[$key] ?? null;
+		if (isset($this->config[$key])) {
+			return $this->config[$key];
+		}
+		if (!str_contains($key, '.')) {
+			return null;
+		}
+		$keys = explode('.', $key);
+		$root = $this->config;
+		foreach ($keys as $searchKey) {
+			if (!is_array($root) || !isset($root[$searchKey])) {
+				return null;
+			}
+			$root = $root[$searchKey];
+		}
+		return $root;
 	}
 }

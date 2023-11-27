@@ -77,6 +77,28 @@ final class ArrayConfigTest extends TestCase
 		$this->assertSame(1, $config->get('not-found', 1));
 	}
 
+	public function testGetNestedValueByDotKey(): void
+	{
+		$config = $this->getConfig();
+
+		$this->assertSame(1, $config->getInt('deep.nesting.int'));
+		$this->assertSame('test', $config->getString('deep.nesting.string'));
+	}
+
+	public function testGetNestedValueByDotKeyNotFound(): void
+	{
+		$config = $this->getConfig();
+
+		$this->assertNull($config->getInt('deep.nesting.not-found.int'));
+	}
+
+	public function testGetNestedValueHasLowerPriorityThanExactMatch(): void
+	{
+		$config = $this->getConfig();
+
+		$this->assertSame(1, $config->get('nesting.test.value'));
+	}
+
 	public function getConfig(): ArrayConfig
 	{
 		return new ArrayConfig([
@@ -87,6 +109,18 @@ final class ArrayConfigTest extends TestCase
 			'testBoolAsString' => 'on',
 			'testArray' => [
 				'random' => '1',
+			],
+			'deep' => [
+				'nesting' => [
+					'int' => 1,
+					'string' => 'test',
+				],
+			],
+			'nesting.test.value' => 1,
+			'nesting' => [
+				'test' => [
+					'value' => 2,
+				],
 			],
 		]);
 	}
