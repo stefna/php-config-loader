@@ -99,6 +99,14 @@ final class ArrayConfigTest extends TestCase
 		$this->assertSame(1, $config->get('nesting.test.value'));
 	}
 
+	public function testDotKeyReturnEmptyOnExtraDots(): void
+	{
+		$config = $this->getConfig();
+
+		$this->assertNull($config->get('nesting.'));
+		$this->assertNull($config->get('.nesting'));
+	}
+
 	public function getConfig(): ArrayConfig
 	{
 		return new ArrayConfig([
