@@ -6,6 +6,14 @@ final class ArrayConfig implements Config
 {
 	use GetConfigTrait;
 
+	/**
+	 * @param array<string, mixed> $data
+	 */
+	public static function fromArray(array $data): self
+	{
+		return new self($data);
+	}
+
 	public function __construct(
 		/** @var array<string, mixed> */
 		private readonly array $config,
