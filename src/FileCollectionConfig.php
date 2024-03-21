@@ -26,7 +26,7 @@ final class FileCollectionConfig implements Config
 		$this->files[] = $file;
 	}
 
-	protected function getRawValue(string $key): mixed
+	public function getRawValue(string $key): mixed
 	{
 		if (isset($this->configData)) {
 			return $this->configData[$key] ?? null;

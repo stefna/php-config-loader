@@ -17,7 +17,7 @@ final class ChainConfig implements Config
 		$this->configs = $configs;
 	}
 
-	protected function getRawValue(string $key): mixed
+	public function getRawValue(string $key): mixed
 	{
 		if (isset($this->cache[$key])) {
 			return $this->cache[$key];

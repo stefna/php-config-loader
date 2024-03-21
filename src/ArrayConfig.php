@@ -19,7 +19,7 @@ final class ArrayConfig implements Config
 		private readonly array $config,
 	) {}
 
-	protected function getRawValue(string $key): mixed
+	public function getRawValue(string $key): mixed
 	{
 		if (isset($this->config[$key])) {
 			return $this->config[$key];
