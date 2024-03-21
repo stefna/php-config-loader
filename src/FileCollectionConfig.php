@@ -11,8 +11,7 @@ final class FileCollectionConfig implements Config
 
 	/** @var string[] */
 	private array $files = [];
-	/** @var array<string, mixed> */
-	private array $configData;
+	private ArrayConfig $loadedConfig;
 
 	public function __construct(
 		private readonly string $configPath,
@@ -20,7 +19,7 @@ final class FileCollectionConfig implements Config
 
 	public function addFile(string $file): void
 	{
-		if (isset($this->configData)) {
+		if (isset($this->loadedConfig)) {
 			throw new ConfigLocked("Can't add more files after config have been loaded");
 		}
 		$this->files[] = $file;
@@ -28,8 +27,8 @@ final class FileCollectionConfig implements Config
 
 	public function getRawValue(string $key): mixed
 	{
-		if (isset($this->configData)) {
-			return $this->configData[$key] ?? null;
+		if (isset($this->loadedConfig)) {
+			return $this->loadedConfig->getRawValue($key);
 		}
 
 		$configs = [];
@@ -40,8 +39,8 @@ final class FileCollectionConfig implements Config
 			$configs[] = require $this->configPath . $configFile;
 		}
 		$this->files = [];
-		$this->configData = array_merge(...$configs);
+		$this->loadedConfig = new ArrayConfig(array_merge(...$configs));
 
-		return $this->configData[$key] ?? null;
+		return $this->loadedConfig->getRawValue($key);
 	}
 }
