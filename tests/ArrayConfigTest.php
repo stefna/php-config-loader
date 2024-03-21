@@ -8,6 +8,15 @@ use Stefna\Config\Tests\Stub\TestStub;
 
 final class ArrayConfigTest extends TestCase
 {
+	public function testGetArrayConfigAsConfigObject(): void
+	{
+		$config = $this->getConfig();
+		$obj = $config->getArrayAsObject('testArray', ArrayConfig::class);
+
+		$this->assertInstanceOf(ArrayConfig::class, $obj);
+		$this->assertSame(1, $obj->getInt('random'));
+	}
+
 	public function testGetArrayObject(): void
 	{
 		$config = $this->getConfig();
