@@ -8,8 +8,7 @@ final class FileConfig implements Config
 {
 	use GetConfigTrait;
 
-	/** @var array<string, mixed> */
-	private array $configData;
+	private ArrayConfig $loadedConfig;
 
 	public function __construct(
 		private readonly string $configFile,
@@ -17,15 +16,15 @@ final class FileConfig implements Config
 
 	public function getRawValue(string $key): mixed
 	{
-		if (isset($this->configData)) {
-			return $this->configData[$key] ?? null;
+		if (isset($this->loadedConfig)) {
+			return $this->loadedConfig->getRawValue($key);
 		}
 
 		if (!file_exists($this->configFile)) {
 			throw new FileNotFound('Configuration not found: ' . $this->configFile);
 		}
-		$this->configData = require $this->configFile;
+		$this->loadedConfig = ArrayConfig::fromArray(require $this->configFile);
 
-		return $this->configData[$key] ?? null;
+		return $this->loadedConfig->getRawValue($key);
 	}
 }
